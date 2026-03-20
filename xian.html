@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xi'an — Historical Landmarks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --crimson:    #7A1E1E;
+      --deep-red:   #4A2C2A;
+      --gold:       #C9A24A;
+      --pale-gold:  #F5E9D6;
+      --dark:       #1C1C1C;
+      --charcoal:   #4A2C2A;
+      --cream:      #F5E9D6;
+      --text-light: #F5E9D6;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      background: var(--dark);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(26,10,0,0.95);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--pale-gold);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      position: relative;
+      height: 55vh;
+      min-height: 400px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 4rem;
+      overflow: hidden;
+    }
+
+    .page-hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #1C1C1C, #4A2C2A, #7A1E1E, #7A1E1E33);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .page-hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,10,0,0.9), transparent 60%);
+    }
+
+    .page-hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.3;
+    }
+
+    .page-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+    }
+
+    .breadcrumb {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .breadcrumb a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    .page-hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      color: var(--cream);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .page-hero p {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--pale-gold);
+    }
+
+    /* ── INTRO ── */
+    .intro {
+      max-width: 780px;
+      margin: 5rem auto;
+      padding: 0 3rem;
+      text-align: center;
+    }
+
+    .intro p {
+      font-size: 1.15rem;
+      line-height: 2;
+      color: var(--text-light);
+    }
+
+    .gold-rule {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 2rem auto;
+    }
+
+    /* ── LANDMARK ENTRIES ── */
+    .landmark {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      max-width: 1200px;
+      margin: 0 auto 1px;
+      border-top: 1px solid rgba(201,168,76,0.12);
+    }
+
+    .landmark:nth-child(even) { direction: rtl; }
+    .landmark:nth-child(even) > * { direction: ltr; }
+
+    .landmark-img {
+      position: relative;
+      min-height: 480px;
+      background: var(--charcoal);
+      overflow: hidden;
+    }
+
+    .landmark-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      opacity: 0.75;
+      transition: opacity 0.5s, transform 0.6s;
+    }
+
+    .landmark-img:hover img {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+
+    .landmark-img-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .landmark-img-placeholder .ph-icon {
+      font-family: 'Cinzel', serif;
+      font-size: 4rem;
+      color: rgba(201,168,76,0.15);
+    }
+
+    .landmark-img-placeholder p {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: rgba(201,168,76,0.3);
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .landmark-num-overlay {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      font-family: 'Cinzel', serif;
+      font-size: 6rem;
+      font-weight: 900;
+      color: rgba(201,168,76,0.12);
+      line-height: 1;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .landmark-text {
+      padding: 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--charcoal);
+    }
+
+    .landmark-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .landmark-name {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 0.3em;
+    }
+
+    .landmark-chinese {
+      font-size: 1rem;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      margin-bottom: 1.5rem;
+    }
+
+    .landmark-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .landmark-body {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .landmark-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: auto;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .meta-row {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .meta-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      min-width: 80px;
+    }
+
+    .meta-value {
+      color: var(--pale-gold);
+    }
+
+    /* ── TIPS SECTION ── */
+    .tips {
+      background: var(--crimson);
+      padding: 5rem 3rem;
+      border-top: 1px solid var(--gold);
+      border-bottom: 1px solid var(--gold);
+    }
+
+    .tips-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .tips .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      color: var(--pale-gold);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .tips h2 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      color: var(--cream);
+      margin-bottom: 3rem;
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .tip {
+      padding: 1.5rem;
+      border: 1px solid rgba(232,213,163,0.2);
+      background: rgba(0,0,0,0.2);
+    }
+
+    .tip-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .tip h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .tip p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--pale-gold);
+    }
+
+    /* ── BACK CTA ── */
+    .back-cta {
+      text-align: center;
+      padding: 5rem 2rem;
+    }
+
+    .back-cta p {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--pale-gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-back {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 0.9rem 2rem;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .btn-back:hover {
+      background: var(--gold);
+      color: var(--dark);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 3rem;
+      border-top: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      letter-spacing: 0.3em;
+      margin-bottom: 1rem;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: rgba(240,224,192,0.4);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+
+      .page-hero { padding: 2rem; }
+
+      .landmark {
+        grid-template-columns: 1fr;
+        direction: ltr !important;
+      }
+
+      .landmark-img { min-height: 280px; }
+
+      .landmark-text { padding: 2.5rem 2rem; }
+
+      .tips-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { display: none; }
+
+      .intro { padding: 0 1.5rem; margin: 3rem auto; }
+
+      .tips { padding: 3rem 1.5rem; }
+      .tips-grid { grid-template-columns: 1fr; }
+
+      .landmark-text { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Xi'an</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="xian.html" class="active">Xi'an</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <!-- Replace src with a CC-licensed aerial or wide shot of Xi'an -->
+    <img class="page-hero-img" src="images/xian-hero.jpg" alt="Aerial view of Xi'an ancient city at golden hour">
+    <div class="page-hero-content">
+      <p class="breadcrumb"><a href="index.html">Xi'an</a> &nbsp;/&nbsp; Historical Landmarks</p>
+      <h1>Monuments<br>of Eternity</h1>
+      <p>The sites that shaped three millennia of civilisation</p>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <div class="intro">
+    <p>
+      Xi'an's landmarks are not mere tourist attractions — they are
+      chapters of a story that spans three thousand years. Each site
+      carries the weight of dynasties, the ambition of emperors, and
+      the ingenuity of millions of nameless builders.
+    </p>
+    <div class="gold-rule"></div>
+  </div>
+
+  <!-- LANDMARK 1: TERRACOTTA ARMY -->
+  <article class="landmark" id="terracotta">
+    <div class="landmark-img">
+      <!-- Replace with CC image: Unsplash / Wikimedia Commons -->
+      <img src="images/terracotta.jpg" alt="Rows of life-sized terracotta warrior statues standing in excavation pit one, Museum of the Terracotta Warriors, Xi'an">
+      <div class="landmark-img-placeholder">
+        <div class="ph-icon">兵</div>
+        <p>[ Terracotta Army<br>CC image here ]</p>
+      </div>
+      <div class="landmark-num-overlay">01</div>
+    </div>
+    <div class="landmark-text">
+      <p class="landmark-tag">UNESCO World Heritage Site · 221 BCE</p>
+      <h2 class="landmark-name">The Terracotta Army</h2>
+      <p class="landmark-chinese">兵马俑</p>
+      <div class="landmark-divider"></div>
+      <p class="landmark-body">
+        In 1974, farmers digging a well near the Lishan mountain stumbled upon
+        fragments of a clay figure — triggering one of the most significant
+        archaeological discoveries of the twentieth century. What lay beneath
+        the soil was an entire army, commissioned by China's first emperor,
+        Qin Shi Huang, to guard his tomb in the afterlife.
+      </p>
+      <p class="landmark-body">
+        Over 8,000 soldiers, 130 chariots, and 670 horses have been uncovered
+        across three excavation pits. Every face is unique. Every figure was
+        once painted in vivid colour. Scholars estimate that the full mausoleum
+        complex may contain hundreds of thousands more artefacts still unexcavated.
+      </p>
+      <div class="landmark-meta">
+        <div class="meta-row">
+          <span class="meta-label">Location</span>
+          <span class="meta-value">Lintong District, 35 km east of Xi'an city centre</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Best Time</span>
+          <span class="meta-value">Weekday mornings to avoid crowds</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Tip</span>
+          <span class="meta-value">Hire a local guide — the context transforms the experience</span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- LANDMARK 2: CITY WALL -->
+  <article class="landmark" id="wall">
+    <div class="landmark-img">
+      <img src="images/city-wall.jpg" alt="Xi'an ancient city wall stretching into the distance at sunset, battlements silhouetted against an orange sky">
+      <div class="landmark-img-placeholder">
+        <div class="ph-icon">城</div>
+        <p>[ City Wall<br>CC image here ]</p>
+      </div>
+      <div class="landmark-num-overlay">02</div>
+    </div>
+    <div class="landmark-text">
+      <p class="landmark-tag">Ming Dynasty · Built 1370 AD</p>
+      <h2 class="landmark-name">The Ancient City Wall</h2>
+      <p class="landmark-chinese">西安城墙</p>
+      <div class="landmark-divider"></div>
+      <p class="landmark-body">
+        Rising 12 metres high and stretching 13.74 kilometres around the old
+        city, Xi'an's city wall is one of the most complete and best-preserved
+        ancient fortifications in the world. Unlike many historical sites that
+        demand reverence from a distance, this one invites you to walk — or
+        cycle — directly on top of it.
+      </p>
+      <p class="landmark-body">
+        The wall was constructed atop the foundations of the Tang imperial city,
+        making it a literal layering of dynasties. At its four cardinal gates
+        stand watchtowers that have surveyed the city for over six centuries.
+        As the sun sets, the entire structure glows warm amber against the
+        fading sky.
+      </p>
+      <div class="landmark-meta">
+        <div class="meta-row">
+          <span class="meta-label">Activity</span>
+          <span class="meta-value">Rent a bicycle and cycle the full 13.7 km perimeter</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Best Time</span>
+          <span class="meta-value">One hour before sunset for golden-hour light</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Entry</span>
+          <span class="meta-value">South Gate (Yongning Gate) is the most scenic entrance</span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- LANDMARK 3: BIG WILD GOOSE PAGODA -->
+  <article class="landmark" id="goose">
+    <div class="landmark-img">
+      <img src="images/pagoda.jpg" alt="Big Wild Goose Pagoda tower rising against a blue sky, surrounded by Tang Paradise gardens">
+      <div class="landmark-img-placeholder">
+        <div class="ph-icon">塔</div>
+        <p>[ Big Wild Goose Pagoda<br>CC image here ]</p>
+      </div>
+      <div class="landmark-num-overlay">03</div>
+    </div>
+    <div class="landmark-text">
+      <p class="landmark-tag">Tang Dynasty · Built 652 AD</p>
+      <h2 class="landmark-name">Big Wild Goose Pagoda</h2>
+      <p class="landmark-chinese">大雁塔</p>
+      <div class="landmark-divider"></div>
+      <p class="landmark-body">
+        Commissioned by Emperor Gaozong and built to house the Sanskrit sutras
+        that the monk Xuanzang brought back from his legendary journey to India,
+        the Big Wild Goose Pagoda stands as one of the finest examples of
+        Tang dynasty Buddhist architecture in existence.
+      </p>
+      <p class="landmark-body">
+        At 64 metres tall across seven storeys, it commands the skyline of
+        southern Xi'an. The surrounding Da Ci'en Temple complex remains an
+        active place of worship. Each evening, Asia's largest musical fountain
+        display erupts in the vast square to its north — a spectacle
+        that draws thousands of visitors.
+      </p>
+      <div class="landmark-meta">
+        <div class="meta-row">
+          <span class="meta-label">Fountain</span>
+          <span class="meta-value">Nightly show at the North Square from 8:30 PM</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Climb</span>
+          <span class="meta-value">Ascend all seven floors for a panoramic view of Xi'an</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Nearby</span>
+          <span class="meta-value">Tang West Market and Shaanxi History Museum within 3 km</span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- TRAVEL TIPS -->
+  <section class="tips">
+    <div class="tips-inner">
+      <p class="section-label">Practical Info</p>
+      <h2>Before You Go</h2>
+      <div class="tips-grid">
+        <div class="tip">
+          <div class="tip-icon">✈️</div>
+          <h4>Getting There</h4>
+          <p>Xi'an Xianyang International Airport connects to major cities across China and select international routes. High-speed rail from Beijing takes 4.5 hours.</p>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🗓</div>
+          <h4>Best Season</h4>
+          <p>Spring (April–May) and autumn (September–October) offer pleasant temperatures and clear skies. Summer is hot; winter is cold but crowd-free.</p>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🍜</div>
+          <h4>Local Food</h4>
+          <p>Do not leave without trying Rou Jia Mo (Chinese burger), Yang Rou Pao Mo (lamb stew with bread), and cold Liang Pi noodles from the Muslim Quarter.</p>
+        </div>
+        <div class="tip">
+          <div class="tip-icon">🗺</div>
+          <h4>Getting Around</h4>
+          <p>The city metro covers major landmarks. For the Terracotta Army, take Metro Line 9 directly from the city centre — no tour bus needed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BACK CTA -->
+  <section class="back-cta">
+    <p>You've seen the landmarks. Now discover the full story.</p>
+    <a href="index.html" class="btn-back">← Back to Xi'an Home</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">XI'AN</div>
+    <p>A digital tribute to China's eternal capital &nbsp;·&nbsp; Created for DMD, INTI International University</p>
+  </footer>
+
+</body>
+</html>
